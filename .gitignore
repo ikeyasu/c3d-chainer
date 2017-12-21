@@ -1,0 +1,5 @@
+.ipynb_checkpoints
+*.swp
+result_*.txt
+./tmp/
+__pycache__
