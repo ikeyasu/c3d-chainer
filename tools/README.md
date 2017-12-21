@@ -33,7 +33,7 @@ $ ls videos/*/*.jpg | parallel -j20 'python tools/resize.py -i {} -o `echo {} | 
 ```
 
 Some videos have very small number of frames. These videos cannot use for training/testing.
-The following command conts number of files for each video.
+The following command counts number of files for each video.
 Please find videos which have images less than 10, and remove the folders.
 
 ```
@@ -41,7 +41,7 @@ $ cd images/
 $ ls | parallel -j50 'echo `ls -1 {} | wc -l` {}' | sort -n > counts
 ```
 
-To separate test set, move dirs randomly.
+To split test set, move dirs randomly.
 
 ```
 $ pushd images
