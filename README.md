@@ -124,10 +124,10 @@ Now, you have..
 # Training
 
 ```
-$ python train_cifar.py -g 0 --arch c3d --batchsize 30 --train-data ucf11_160x120/images/ --test-data ucf11_160x120/tests/ --optimizer sgd --mean ucf11_112px/mean.npy --frames 9
+$ python train.py -g 0 --arch c3d --batchsize 30 --train-data ucf11_160x120/images/ --test-data ucf11_160x120/tests/ --optimizer sgd --mean ucf11_112px/mean.npy --frames 9
 ```
 
-Please refer to `python train_cifar.py --help` for detail.
+Please refer to `python train.py --help` for detail.
 
 [The original paper](https://arxiv.org/abs/1412.0767) uses 16 frames but this sample uses 9 frames because of my GPU limitation.
 
