@@ -48,6 +48,8 @@ def main():
                         help='Mean file (computed by compute_mean.py)')
     parser.add_argument('--frames', '-f', type=int, default=6,
                         help='frames for convlution')
+    parser.add_argument('--no-random', action='store_false',
+                        help='Disable data augmentation')
     args = parser.parse_args()
 
     print('GPU: {}'.format(args.gpu))
@@ -62,8 +64,8 @@ def main():
     print('Using {} model.'.format(args.arch))
     class_labels = 11
     mean = np.load(args.mean) if os.path.isfile(args.mean if args.mean else "") else None
-    train = UCF11(args.train_data, mean, args.frames)
-    test = UCF11(args.test_data, mean, args.frames)
+    train = UCF11(args.train_data, mean, args.frames, random=args.no_random)
+    test = UCF11(args.test_data, mean, args.frames, random=False)
     model = L.Classifier(archs[args.arch](class_labels))
     if args.gpu >= 0:
         # Make a specified GPU current
