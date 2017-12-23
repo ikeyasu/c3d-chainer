@@ -25,8 +25,7 @@ class Block3D(chainer.Chain):
     def __init__(self, in_channels, out_channels, ksize, pad=1):
         super(Block3D, self).__init__()
         with self.init_scope():
-            self.conv = L.ConvolutionND(ndim=3, in_channels=in_channels, out_channels=out_channels, ksize=ksize, pad=pad,
-                                        nobias=True)
+            self.conv = L.ConvolutionND(ndim=3, in_channels=in_channels, out_channels=out_channels, ksize=ksize, pad=pad)
 
     def __call__(self, x):
         h = self.conv(x)
@@ -45,17 +44,17 @@ class C3D(chainer.Chain):
     def __init__(self, class_labels=11):
         super(C3D, self).__init__()
         with self.init_scope():
-            self.conv1a = Block3D(3, 64, 2)
-            self.conv2a = Block3D(64, 128, 2)
-            self.conv3a = Block3D(128, 256, 2)
-            self.conv3b = Block3D(256, 256, 2)
-            self.conv4a = Block3D(256, 512, 2)
-            self.conv4b = Block3D(512, 512, 2)
-            self.conv5a = Block3D(512, 512, 2)
-            self.conv5b = Block3D(512, 512, 2)
-            self.fc6 = L.Linear(None, 4096, nobias=True)
-            self.fc7 = L.Linear(None, 4096, nobias=True)
-            self.fc8 = L.Linear(None, class_labels, nobias=True)
+            self.conv1a = Block3D(3, 64, 3)
+            self.conv2a = Block3D(64, 128, 3)
+            self.conv3a = Block3D(128, 256, 3)
+            self.conv3b = Block3D(256, 256, 3)
+            self.conv4a = Block3D(256, 512, 3)
+            self.conv4b = Block3D(512, 512, 3)
+            self.conv5a = Block3D(512, 512, 3)
+            self.conv5b = Block3D(512, 512, 3)
+            self.fc6 = L.Linear(8192, 4096)
+            self.fc7 = L.Linear(4096, 4096)
+            self.fc8 = L.Linear(4096, class_labels)
 
     def __call__(self, x):
         h = self.conv1a(x)
