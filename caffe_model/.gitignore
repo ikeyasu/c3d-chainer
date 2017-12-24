@@ -1,0 +1,5 @@
+caffe.proto
+caffe_pb2.py
+conv3d_deepnetA_sport1m_iter_1900000
+*.mp4
+labels.txt
