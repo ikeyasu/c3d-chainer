@@ -65,16 +65,6 @@ Top 5 probabilities and labels:
 6.63952 freestyle wrestling
 ```
 
-# Result
-
-Accuracy:
-
-![Accuracy](./docs/accuracy.png)
-
-Loss:
-
-![Loss](./docs/loss.png)
-
 # UCF11 Dataset
 
 You can refer to [tools/README.md](tools/README.md) for a dataset generation.
@@ -170,7 +160,7 @@ Now, you have..
 * ./ucf11_112px/mean.npy: mean image array
 
 
-# Training
+## Training
 
 ```
 $ python train.py -g 0 --arch c3d --batchsize 30 --train-data ucf11_160x120/images/ --test-data ucf11_160x120/tests/ --optimizer sgd --mean ucf11_112px/mean.npy --frames 9
@@ -180,7 +170,18 @@ Please refer to `python train.py --help` for detail.
 
 [The original paper](https://arxiv.org/abs/1412.0767) uses 16 frames but this sample uses 9 frames because of my GPU limitation.
 
-# Prediction
+## Result
+
+Accuracy:
+
+![Accuracy](./docs/accuracy.png)
+
+Loss:
+
+![Loss](./docs/loss.png)
+
+
+## UCF11 Prediction
 
 By image directory.
 
