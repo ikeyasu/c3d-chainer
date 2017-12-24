@@ -61,12 +61,12 @@ def main():
                         help='Mean file (computed by compute_mean.py)')
     args = parser.parse_args()
 
-    labels = []
     if args.labels:
         with open(args.labels, 'r') as f:
             labels = [line.strip() for line in f.readlines()]
     else:
         labels = UCF11.LABELS
+    print("Loaded {} labels.".format(len(labels)))
     model = chainer.links.Classifier(archs[args.arch](len(labels) if args.labels else UCF11.NUM_OF_CLASSES))
     chainer.serializers.load_npz(args.model, model)
     model.predictor.train = False
