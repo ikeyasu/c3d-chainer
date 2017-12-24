@@ -2,18 +2,68 @@
 
 Sample source of C3D written in Chainer.
 
-This code is inspired by [c3d-keras](https://github.com/axon-research/c3d-keras), but it is implemented from scratch.
-Currently, I've not tried fine-tuning from pre-trained model of [original one](https://github.com/facebook/C3D).
+This code is inspired by [c3d-keras](https://github.com/axon-research/c3d-keras), nd [c3d-pytorch](https://github.com/DavideA/c3d-pytorch).
 The original paper is [here](https://arxiv.org/abs/1412.0767).
 
 Requirement:
 
 * Chainer 3.2 (It may work on the other versions.)
 
-This sample is forked from [chainer/examples/cifar@97315f](https://github.com/chainer/chainer/tree/97315ffff04622a12d49b028c0fba21535e51532/examples/cifar).
+This code is forked from [chainer/examples/cifar@97315f](https://github.com/chainer/chainer/tree/97315ffff04622a12d49b028c0fba21535e51532/examples/cifar).
 Please refer to [here](https://github.com/chainer/chainer/blob/97315ffff04622a12d49b028c0fba21535e51532/LICENSE) about license.
 
 Copyright (c) 2017 ikeyasu.
+
+# Using pre-trained model
+
+Prerequirement.
+
+* opencv3 with FFmpeg
+* youtube-dl (if you need)
+
+```
+$ pip install youtube-dl
+$ conda config --add channels conda-forge
+$ conda install opencv
+```
+
+Download models, labels and mean image.
+
+* model: [Chainer converted model](https://github.com/ikeyasu/c3d-chainer/releases/download/201712124/conv3d_deepnetA_sport1m_iter_1900000_chainer.model)
+* labell: [Sports-1M Dataset's label](https://raw.githubusercontent.com/gtoderici/sports-1m-dataset/master/labels.txt)
+* mean image: [ced-keras's file](https://github.com/axon-research/c3d-keras/blob/master/data/train01_16_128_171_mean.npy.bz2?raw=true)
+
+```
+$ pushd caffe_model
+$   wget https://github.com/ikeyasu/c3d-chainer/releases/download/201712124/conv3d_deepnetA_sport1m_iter_1900000_chainer.model
+$   wget https://raw.githubusercontent.com/gtoderici/sports-1m-dataset/master/labels.txt
+$   wget --content-disposition https://github.com/axon-research/c3d-keras/blob/master/data/train01_16_128_171_mean.npy.bz2?raw=true
+$   bunzip2 train01_16_128_171_mean.npy.bz2
+$ cd popd
+```
+
+NOTE: If you want to convert caffe model to chainer by yourself, please read [caffe_model/README.md](./caffe_model/README.md).
+
+Then, you can run a prediction.
+
+```
+$ youtube-dl -f mp4 https://www.youtube.com/watch?v=dM06AMFLsrc -o dM06AMFLsrc.mp4
+$ python predict.py -a c3d --model caffe_model/conv3d_deepnetA_sport1m_iter_1900000_chainer.model --mean caffe_model/train01_16_128_171_mean.npy --video dM06AMFLsrc.mp4 --labels caffe_model/labels.txt
+Loaded 487 labels.
+Loaded caffe_model/conv3d_deepnetA_sport1m_iter_1900000_chainer.model.
+/home/ikeyasu/anaconda3/envs/chainer3/lib/python3.6/site-packages/chainer/utils/experimental.py:104: FutureWarning: chainer.functions.pooling.MaxPoolingND is experimental. The interface can change in the future.
+  FutureWarning)
+Position of maximum probability: 367
+Maximum probability: 10.43649
+Corresponding label: basketball
+
+Top 5 probabilities and labels:
+10.43649 basketball
+8.61597 volleyball
+8.46861 streetball
+7.04241 roller derby
+6.63952 freestyle wrestling
+```
 
 # Result
 
@@ -25,13 +75,12 @@ Loss:
 
 ![Loss](./docs/loss.png)
 
-# Dataset
+# UCF11 Dataset
 
 You can refer to [tools/README.md](tools/README.md) for a dataset generation.
 
 We use [UCF11](http://crcv.ucf.edu/data/UCF_YouTube_Action.php) which is small dataset for
 human activity detection.
-The original paper uses Sports-1M dataset but it is not tried yet in this sample.
 
 You need to download the dataset and convert to jpeg images. Please see also [tools/README.md](tools/README.md) for detail.
 
