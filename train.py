@@ -48,7 +48,7 @@ def main():
                         help='Mean file (computed by compute_mean.py)')
     parser.add_argument('--frames', '-f', type=int, default=6,
                         help='frames for convlution')
-    parser.add_argument('--no-random', action='store_false',
+    parser.add_argument('--no-random', action='store_true',
                         help='Disable data augmentation')
     args = parser.parse_args()
 
@@ -62,8 +62,9 @@ def main():
     # iteration, which will be used by the PrintReport extension below.
     print('Using UCF11 dataset.')
     print('Using {} model.'.format(args.arch))
+    print('Disable data augmentation' if args.no_random else 'Enable data augmentation')
     mean = np.load(args.mean) if os.path.isfile(args.mean if args.mean else "") else None
-    train = UCF11(args.train_data, mean, args.frames, data_aug=args.no_random)
+    train = UCF11(args.train_data, mean, args.frames, data_aug=(not args.no_random))
     test = UCF11(args.test_data, mean, args.frames, data_aug=False)
     model = L.Classifier(archs[args.arch](UCF11.NUM_OF_CLASSES))
     if args.gpu >= 0:
