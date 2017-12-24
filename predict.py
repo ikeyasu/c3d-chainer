@@ -57,12 +57,12 @@ def main():
                         help='Input video file')
     parser.add_argument('--labels',
                         help='Labels file. (No need labels file for UCF11 dataset)')
-    parser.add_argument('--arch', '-a', choices=archs.keys(), default='vgg3d',
+    parser.add_argument('--arch', '-a', choices=archs.keys(), default='c3d',
                         help='Architecture (vgg3d, c3d)')
     parser.add_argument('--model', '-e', required=True,
                         help='model file')
     parser.add_argument('--mean', '-m', required=True,
-                        help='Mean file (computed by compute_mean.py)')
+                        help='Mean file. It is computed by compute_mean.py or downloaded train01_16_128_171_mean.npy. (See caffe_model/README.md)')
     args = parser.parse_args()
 
     if args.labels:
