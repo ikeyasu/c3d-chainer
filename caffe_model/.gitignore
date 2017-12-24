@@ -3,3 +3,4 @@ caffe_pb2.py
 conv3d_deepnetA_sport1m_iter_1900000
 *.mp4
 labels.txt
+train01_16_128_171_mean.npy
