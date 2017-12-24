@@ -7,9 +7,6 @@ import models.VGG
 import models.C3D
 import chainer.links as L
 import caffe_model.caffe_pb2 as caffe
-
-from datasets.UCF11 import UCF11, UCF11Sub, LABELS
-
 NUM_OF_CLASSES = 487 #11
 
 

@@ -1,22 +1,15 @@
-import chainer
-import os
 import numpy as np
-import pickle
 
 from chainer import serializers
 
-import models.VGG
 import models.C3D
-import chainer.links as L
+import chainer
 import caffe_model.caffe_pb2 as caffe
 
-from datasets.UCF11 import UCF11, UCF11Sub, LABELS
-
-NUM_OF_CLASSES = 487 #11
+NUM_OF_CLASSES = 487  #11
 
 
-model = L.Classifier(models.C3D.C3D(NUM_OF_CLASSES))
-#chainer.serializers.load_npz('mlp.model', model)
+model = chainer.links.Classifier(models.C3D.C3D(NUM_OF_CLASSES))
 model.predictor.train = False
 
 conv_layers_indx = [1, 4, 7, 9, 12, 14, 17, 19]

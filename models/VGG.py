@@ -89,7 +89,7 @@ class VGG(chainer.Chain):
 
     """
 
-    def __init__(self, class_labels=10):
+    def __init__(self, class_labels=11):
         super(VGG, self).__init__()
         with self.init_scope():
             self.block1_1 = Block(64, 3)

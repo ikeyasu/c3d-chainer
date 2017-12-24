@@ -62,11 +62,10 @@ def main():
     # iteration, which will be used by the PrintReport extension below.
     print('Using UCF11 dataset.')
     print('Using {} model.'.format(args.arch))
-    class_labels = 11
     mean = np.load(args.mean) if os.path.isfile(args.mean if args.mean else "") else None
-    train = UCF11(args.train_data, mean, args.frames, random=args.no_random)
-    test = UCF11(args.test_data, mean, args.frames, random=False)
-    model = L.Classifier(archs[args.arch](class_labels))
+    train = UCF11(args.train_data, mean, args.frames, data_aug=args.no_random)
+    test = UCF11(args.test_data, mean, args.frames, data_aug=False)
+    model = L.Classifier(archs[args.arch](UCF11.NUM_OF_CLASSES))
     if args.gpu >= 0:
         # Make a specified GPU current
         chainer.cuda.get_device_from_id(args.gpu).use()
