@@ -25,16 +25,20 @@ def get_ucf11_dataset(path, mean):
 
 def get_data_from_video(path, mean):
     cap = cv2.VideoCapture(path)
-    vid = []
+    frames = []
+    if mean is not None:
+        # TODO: This is a hack for train01_16_128_171_mean.npy
+        mean = mean.transpose((1, 2, 3, 0))[0]
     while True:
         ret, img = cap.read()
         if not ret:
             break
-        vid.append(cv2.resize(img, (171, 128)))
-    vid = np.array(vid, dtype=np.float32)
-    frames = vid[2000:2016, 8:120, 30:142, :]
-    if mean is not None:
-        frames = np.array([frames[j] - mean for j in range(frames)])
+        img = cv2.resize(img, (171, 128))
+        if mean is not None:
+            img = img - mean
+        frames.append(img)
+    frames = np.array(frames, dtype=np.float32)
+    frames = frames[2000:2016, 8:120, 30:142, :]
     x = frames.transpose((3, 0, 1, 2))
     return x
 
@@ -69,6 +73,7 @@ def main():
     print("Loaded {} labels.".format(len(labels)))
     model = chainer.links.Classifier(archs[args.arch](len(labels) if args.labels else UCF11.NUM_OF_CLASSES))
     chainer.serializers.load_npz(args.model, model)
+    print("Loaded {}.".format(args.model))
     model.predictor.train = False
 
     mean = np.load(args.mean)
