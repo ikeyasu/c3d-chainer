@@ -85,14 +85,14 @@ Download UCF11.
 $ wget http://crcv.ucf.edu/data/UCF11_updated_mpg.rar
 $ mkdir videos
 $ pushd videos
-$   unar e UCF11_updated_mpg.rar
+$   unrar e UCF11_updated_mpg.rar
 $ popd
 ```
 
 Converting to images.
 
 ```
-$ ls videos/*.mpg | parallel --no-notice -j8 ./tools/video_to_images.sh  {}
+$ ls videos/*.mpg | parallel --no-notice -j8 ./tools/video_to_image.sh  {}
 ```
 
 Make folders for resized and cropped images.
@@ -107,7 +107,7 @@ $ rm dirs
 Resize to 160x120 (half).
 
 ```
-$ ls videos/*/*.jpg | parallel -j20 'convert -resize 160X120 {} `echo {} | sed "s/videos/ucf11_160x120\/images/"`'
+$ ls videos/*/*.jpg | parallel -j20 'convert -resize 160X120! {} `echo {} | sed "s/videos/ucf11_160x120\/images/"`'
 ```
 
 Resize and crop to 112x112 (to compute mean image).
@@ -138,7 +138,7 @@ Please find videos which have images less than 10, and remove the folders.
 $ pushd ucf11_160x120/images/
 $   ls | parallel -j50 'echo `ls -1 {} | wc -l` {}' | sort -n > ../counts
 $   mkdir ../ignored
-$   grep '^[0-9] ' ../counts | cut -d ' ' -f 2 | xargs mv -I '{}' mv {} ../ignored
+$   grep '^[0-9] ' ../counts | cut -d ' ' -f 2 | xargs -I '{}' mv {} ../ignored
 $ popd
 ```
 
